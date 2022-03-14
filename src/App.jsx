@@ -5,9 +5,13 @@ import "bootstrap/dist/js/bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "popper.js/dist/umd/popper";
 import { NavBar } from "./NavBar";
-//import { Mainbody } from "./MainBody";
-//import { CourseList } from "./CoursesList";
+import { StudentsList } from "./StudentsList";
+import { CourseList } from "./CoursesList";
 import { Login } from "./Login";
+import { Dashboard } from "./Dashboard";
+import { PageNotFound } from "./PageNotFound";
+import{ Route, Routes } from "react-router";
+import { BrowserRouter } from "react-router-dom";
 
 
 
@@ -18,11 +22,18 @@ export class App extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <NavBar />
-        <Login/>
+      <BrowserRouter>
+      <NavBar />
+      <Routes > 
+      <Route path="/" exact element={<Login />} />
+      <Route path="/dashboard" exact element={<Dashboard/> } />
+      <Route path="/students" exact element={<StudentsList/>} />
+      <Route path="/courses" exact element={<CourseList/> } />
+      <Route path="*" element={<PageNotFound />} />
+      </Routes>
+      </BrowserRouter>
+
         
-      </React.Fragment>
     );
   }
 }

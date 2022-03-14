@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 
-export class Mainbody extends Component {
+export class StudentsList extends Component {
   state = {
     pageTitle: "Students",
     studentsCount: 5,
