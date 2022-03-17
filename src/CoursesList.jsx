@@ -3,14 +3,7 @@ import { Courses } from "./Courses";
 
 export class CourseList extends Component {
   state = {
-    courses: [
-      { id: 1, courseName: "Mongo DB", price: 28900, duration: 20,quantity: 0 },
-      { id: 2, courseName: "Express JS", price: 14500, duration: 10,quantity: 0 },
-      { id: 3, courseName: "React JS", price: 27745, duration: 40,quantity: 0 },
-      { id: 4, courseName: "Angular JS", price: 28400, duration: 40,quantity: 0 },
-      { id: 5, courseName: "Node JS", price: 17780, duration: 20,quantity: 0 },
-      { id: 6, courseName: "Python", price: 25880, duration: 45,quantity: 0 },
-    ],
+    courses: []
   };
   render() {
     return (
@@ -20,7 +13,7 @@ export class CourseList extends Component {
           {this.state.courses.map((cour) => {
             return (
               <Courses key={cour.id} course={cour} onIncrement={this.handleIncrement}
-              onDecrement={this.handleDecrement}>
+                onDecrement={this.handleDecrement}>
                 <button className="btn btn-primary">Payment</button>
               </Courses>
             );
@@ -29,6 +22,27 @@ export class CourseList extends Component {
       </div>
     );
   }
+  componentDidMount= async() => {
+    //fetch data from data source
+    var response = await fetch("http://localhost:5000/courses", { method: "GET" });
+
+    var cours = await response.json();//converts to json array
+    console.log(cours);
+    this.setState({ courses: cours });
+    //console.log("componentDidMount - CourseList");
+
+
+    // promise.then((response) => {
+    //   console.log(response);
+    //   var promise2 = response.json();
+    //   promise2.then((cours) => {
+    //     console.log(cours);
+    //     this.setState({ courses: cours });
+    //   });
+    // })
+
+  }
+
 
   handleIncrement = (course, maxValue) => {
     //get index of selected course

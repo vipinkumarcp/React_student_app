@@ -2,7 +2,7 @@ import React, { Component } from "react";
 export class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: "upshot@upshot.com", password: "upshot", message: "" };
+        this.state = { email: "", password: "", message: "" };
     }
     render() {
         return (
@@ -36,23 +36,21 @@ export class Login extends Component {
                         Login
                     </button>
                 </div>
-                            <h4>{this.state.message}</h4>
+                <h4>{this.state.message}</h4>
                 <div >
                 </div>
             </div>
         );
     }
-    onLoginClick = () => {
+    onLoginClick = async () => {
         console.log(this.state);
-    }; onLoginClick = () => {
-        console.log(this.state);
-        if (
-            this.state.email === "upshot@upshot.com" &&
-            this.state.password === "upshot"
-        ) {
+        var response = await fetch(`http://localhost:5000/users?email=${this.state.email}&password=${this.state.password}`,{ method: "GET" });
+        var body = await response.json();
+
+        console.log(body);
+        if (body.length > 0) {
             this.setState({
-                message: <span className="text-success">Successfully Logged-in
-                </span>,
+                message: <span className="text-success">Successfully Logged-in</span>,
             });
         } else {
             this.setState({
@@ -62,4 +60,6 @@ export class Login extends Component {
             });
         }
     };
+
+
 }

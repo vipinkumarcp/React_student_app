@@ -1,41 +1,31 @@
 import React, { Component } from "react";
+import {Link} from "react-router-dom";
 
 
 export class StudentsList extends Component {
-  state = {
-    pageTitle: "Students",
-    studentsCount: 5,
-    students: [
-      {
-        id: 1,
-        name: "vijay",
-        phone: "",
-        address: { city: "New Delhi" },
-        photo: "https://picsum.photos/id/220/200/300"
-      },
-      {
-        id: 2,
-        name: "ajith",
-        phone: "",
-        address: { city: "Bangalore" },
-        photo: "https://picsum.photos/id/221/200/300"
-      },
-      { id: 3, name: "mahesh", phone: "889000921", address: { city: "London" }, photo: "https://picsum.photos/id/222/200/300" },
-      { id: 4, name: "aamir khan", phone: "552967601", address: { city: "indore" }, photo: "https://picsum.photos/id/223/200/300" },
-      { id: 5, name: "John", phone: "781566778", address: { city: "surath" }, photo: "https://picsum.photos/id/238/200/300" },
-    ],
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      pageTitle: "Students",
+      studentsCount: 5,
+      students: []
+    };
+    }
   render() {
     return (
       <div>
         <h4 className="border-bottom m-1 p-1">
           {this.state.pageTitle}
-          <span className="badge badge-secondary m-2" style={{ color:"red"}} >
+          <span className="badge badge-secondary m-2" style={{ color: "red" }} >
             {this.state.studentsCount}
           </span>
           <button className="btn btn-info" onClick={this.onRefreshClick}>
             Refresh
           </button>
+          <Link to="/new-student" className="btn btn-primary">
+          New Student
+          </Link>
         </h4>
         <table className="table">
           <thead>
@@ -49,11 +39,25 @@ export class StudentsList extends Component {
           </thead>
           <tbody>
             {this.getStudentRow()}
+  
           </tbody>
         </table>
       </div>
     );
   }
+
+componentDidMount = async () => {
+    document.title = "Students - UPSHOT";
+    let response = await fetch("http://localhost:5000/students", {method: "GET"});
+    if (response.ok) {
+      //200 to 299
+      let body = await response.json();
+      this.setState({ students: body });
+    } else{
+      console.log("Error: " + response.status);
+      }
+         
+};
   //Executes when the user clicks on Refresh button
   onRefreshClick = () => {
     this.setState({ studentsCount: 7 });
@@ -67,7 +71,7 @@ export class StudentsList extends Component {
   };
 
   getStudentRow = () => {
-    return this.state.students.map((stud,index) => {
+    return this.state.students.map((stud, index) => {
       return (
         <tr key={stud.id}>
           <td>{stud.id}</td>

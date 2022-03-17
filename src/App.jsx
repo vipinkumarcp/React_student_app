@@ -12,6 +12,7 @@ import { Dashboard } from "./Dashboard";
 import { PageNotFound } from "./PageNotFound";
 import{ Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
+import NewStudent from "./InsertStudent";
 
 
 
@@ -29,6 +30,8 @@ export class App extends Component {
       <Route path="/dashboard" exact element={<Dashboard/> } />
       <Route path="/students" exact element={<StudentsList/>} />
       <Route path="/courses" exact element={<CourseList/> } />
+      <Route path="/new-student" exact element={<NewStudent/>} />
+
       <Route path="*" element={<PageNotFound />} />
       </Routes>
       </BrowserRouter>
